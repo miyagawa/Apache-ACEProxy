@@ -39,7 +39,7 @@ chosen as the standard. See http://www.i-d-n.net/ for the details.
 =head1 CAVEATS
 
 Works well only for browsers which sends URL as UTF8. See
-L<Apache::ACEPRoxy/"CAVEATS"> for details.
+L<Apache::ACEProxy/"CAVEATS"> for details.
 
 =head1 AUTHOR
 

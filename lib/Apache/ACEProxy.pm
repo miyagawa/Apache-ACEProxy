@@ -96,7 +96,7 @@ Apache::ACEProxy - IDN compatible ACE proxy server
 =head1 DESCRIPTION
 
 Apache::ACEProxy is a mod_perl based HTTP proxy server, which handles
-internatilnalized domain names correctly. This module automaticaly
+internationalized domain names correctly. This module automaticaly
 detects IDNs in Host: header and converts them in ACE encoding.
 
 Set your browser's proxy setting to Apache::ACEProxy based server, and
@@ -104,7 +104,7 @@ you can browse web-sites of multilingual domain names.
 
 =head1 SUBCLASSING
 
-Default ACE encoding is ACE. Here's how you customize this.
+Default ACE encoding is RACE. Here's how you customize this.
 
 =over 4
 
@@ -118,7 +118,7 @@ Inherit from Apache::ACEProxy.
 
 =item *
 
-Define C<encde()> class method.
+Define C<encode()> class method.
 
 =back
 
@@ -142,7 +142,7 @@ sends to the proxy server.
 
 At last, remember to add the following line to httpd.conf or so:
 
-  PerlHandler Apache::ACEProxy::RACE
+  PerlTransHandler Apache::ACEProxy::RACE
 
 =head1 CAVEATS
 
@@ -174,7 +174,7 @@ Tastuhiko Miyagawa <miyagawa@bulknews.net>
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-This module comes with NO WARANTY.
+This module comes with NO WARRANTY.
 
 =head1 SEE ALSO
 
