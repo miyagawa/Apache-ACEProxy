@@ -76,9 +76,9 @@ sub prepare_ace {
 sub encode {
     my($class, $domain) = @_;
 
-    # Default to RACE
-    require Apache::ACEProxy::RACE;
-    Apache::ACEProxy::RACE->encode($domain);
+    # Default to UTF8_RACE
+    require Apache::ACEProxy::UTF8_RACE;
+    Apache::ACEProxy::UTF8_RACE->encode($domain);
 }
 
 1;
@@ -91,20 +91,22 @@ Apache::ACEProxy - IDN compatible ACE proxy server
 =head1 SYNOPSIS
 
   # in httpd.conf
-  PerlTransHandler Apache::ACEProxy # default uses ::RACE
+  PerlTransHandler Apache::ACEProxy # default uses ::UTF8_RACE
 
 =head1 DESCRIPTION
 
 Apache::ACEProxy is a mod_perl based HTTP proxy server, which handles
 internationalized domain names correctly. This module automaticaly
-detects IDNs in Host: header and converts them in ACE encoding.
+detects IDNs in HTTP requests and converts them in ACE encoding. Host:
+headers in HTTP requests are also encoded in ACE.
 
 Set your browser's proxy setting to Apache::ACEProxy based server, and
 you can browse web-sites of multilingual domain names.
 
 =head1 SUBCLASSING
 
-Default ACE encoding is RACE. Here's how you customize this.
+Default ACE conversion is done from UTF8 to RACE. Here's how you
+customize this.
 
 =over 4
 
@@ -123,9 +125,9 @@ Define C<encode()> class method.
 =back
 
 That's all. Here's an example of implementation, extracted from
-Apache::ACEProxy::RACE.
+Apache::ACEProxy::UTF8_RACE.
 
-  package Apache::ACEProxy::RACE;
+  package Apache::ACEProxy::UTF8_RACE;
 
   use base qw(Apache::ACEProxy);
   use Convert::RACE qw(to_race);
@@ -136,36 +138,39 @@ Apache::ACEProxy::RACE.
       return to_race(utf8($domain)->utf16);
   }
 
-Not that you should define C<encode()> method as a class
+Note that you should define C<encode()> method as a class
 method. Argument $domain is a (maybe UTF8) string that your browser
 sends to the proxy server.
 
 At last, remember to add the following line to httpd.conf or so:
 
-  PerlTransHandler Apache::ACEProxy::RACE
+  PerlTransHandler Apache::ACEProxy::UTF8_RACE
 
 =head1 CAVEATS
 
-This module (at least Apache::ACEProxy::RACE) assumes input domain
+The default Apache::ACEProxy::UTF8_RACE assumes that input domain
 names are encoded in UTF8. But currently it's known that:
 
 =over 4
 
 =item *
 
-MSIE's "always send URL as UTF8" preference does NOT ALWAYS send
+MSIE's "always send URL as UTF8" preference does B<NOT ALWAYS> send
 correct UTF8 string.
 
 =item *
 
-Netscape 4.x does NOT send URL as UTF8, but in local encodings.
+Netscape 4.x does B<NOT> send URL as UTF8, but in local encodings.
 
 =back
 
 So, this proxy server doesn't always work well with all the domains
-for all the browsers.
+for all the browsers. If you figure out how your browser encodes
+multilingual domain names, you can write your custom translator as in
+L</"SUBCLASSING">. See also L<Apache::ACEProxy::SJIS_RACE> if your
+mother language is Japanese.
 
-Suggestions, patches and reports are welcome about this fact.
+Suggestions, patches and reports are welcome about this issue.
 
 =head1 AUTHOR
 
@@ -178,6 +183,6 @@ This module comes with NO WARRANTY.
 
 =head1 SEE ALSO
 
-L<Apache::ProxyPassThru>, L<LWP::UserAgent>, L<Unicode::String>, L<Apache::ACEProxy::RACE>
+L<Apache::ProxyPassThru>, L<LWP::UserAgent>, L<Unicode::String>, L<Apache::ACEProxy::UTF8_RACE>, L<Apache::ACEProxy::SJIS_RACE>
 
 =cut

@@ -7,20 +7,21 @@ SYNOPSIS
 
 DESCRIPTION
     Apache::ACEProxy is a mod_perl based HTTP proxy server, which handles
-    internatilnalized domain names correctly. This module automaticaly
-    detects IDNs in Host: header and converts them in ACE encoding.
+    internationalized domain names correctly. This module automaticaly
+    detects IDNs in HTTP requests and converts them in ACE encoding. Host:
+    headers in HTTP requests are also encoded in ACE.
 
     Set your browser's proxy setting to Apache::ACEProxy based server, and
     you can browse web-sites of multilingual domain names.
 
 SUBCLASSING
-    Default ACE encoding is ACE. Here's how you customize this.
+    Default ACE encoding is RACE. Here's how you customize this.
 
     *   Declare your ACE encoder class (like DUDE, AMC-ACE-Z).
 
     *   Inherit from Apache::ACEProxy.
 
-    *   Define "encde()" class method.
+    *   Define "encode()" class method.
 
     That's all. Here's an example of implementation, extracted from
     Apache::ACEProxy::RACE.
@@ -36,13 +37,13 @@ SUBCLASSING
           return to_race(utf8($domain)->utf16);
       }
 
-    Not that you should define "encode()" method as a class method. Argument
-    $domain is a (maybe UTF8) string that your browser sends to the proxy
-    server.
+    Note that you should define "encode()" method as a class method.
+    Argument $domain is a (maybe UTF8) string that your browser sends to the
+    proxy server.
 
     At last, remember to add the following line to httpd.conf or so:
 
-      PerlHandler Apache::ACEProxy::RACE
+      PerlTransHandler Apache::ACEProxy::RACE
 
 CAVEATS
     This module (at least Apache::ACEProxy::RACE) assumes input domain names
@@ -54,9 +55,11 @@ CAVEATS
     *   Netscape 4.x does NOT send URL as UTF8, but in local encodings.
 
     So, this proxy server doesn't always work well with all the domains for
-    all the browsers.
+    all the browsers. If you figure out how your browser encodes
+    multilingual domain names, you can write your custom translator as in
+    the section on "SUBCLASSING".
 
-    Suggestions, patches and reports are welcome about this fact.
+    Suggestions, patches and reports are welcome about this issue.
 
 AUTHOR
     Tastuhiko Miyagawa <miyagawa@bulknews.net>
@@ -64,7 +67,7 @@ AUTHOR
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
 
-    This module comes with NO WARANTY.
+    This module comes with NO WARRANTY.
 
 SEE ALSO
     the Apache::ProxyPassThru manpage, the LWP::UserAgent manpage, the
