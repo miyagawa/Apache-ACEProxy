@@ -1,6 +1,6 @@
 Revision history for Perl extension Apache::ACEProxy.
 
-0.02
+0.02  Tue Sep 18 05:00:59 JST 2001
 	* added SJIS_RACE implementation
 	- rename RACE to UTF8_RACE
 	- documentation improved
