@@ -2,7 +2,7 @@ package Apache::ACEProxy;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 use Apache::Constants qw(:response);
 use LWP::UserAgent;
