@@ -3,7 +3,7 @@ NAME
 
 SYNOPSIS
       # in httpd.conf
-      PerlTransHandler Apache::ACEProxy # default uses ::RACE
+      PerlTransHandler Apache::ACEProxy # default uses ::UTF8_RACE
 
 DESCRIPTION
     Apache::ACEProxy is a mod_perl based HTTP proxy server, which handles
@@ -15,7 +15,8 @@ DESCRIPTION
     you can browse web-sites of multilingual domain names.
 
 SUBCLASSING
-    Default ACE encoding is RACE. Here's how you customize this.
+    Default ACE conversion is done from UTF8 to RACE. Here's how you
+    customize this.
 
     *   Declare your ACE encoder class (like DUDE, AMC-ACE-Z).
 
@@ -24,9 +25,9 @@ SUBCLASSING
     *   Define "encode()" class method.
 
     That's all. Here's an example of implementation, extracted from
-    Apache::ACEProxy::RACE.
+    Apache::ACEProxy::UTF8_RACE.
 
-      package Apache::ACEProxy::RACE;
+      package Apache::ACEProxy::UTF8_RACE;
 
       use base qw(Apache::ACEProxy);
       use Convert::RACE qw(to_race);
@@ -43,10 +44,10 @@ SUBCLASSING
 
     At last, remember to add the following line to httpd.conf or so:
 
-      PerlTransHandler Apache::ACEProxy::RACE
+      PerlTransHandler Apache::ACEProxy::UTF8_RACE
 
 CAVEATS
-    This module (at least Apache::ACEProxy::RACE) assumes input domain names
+    The default Apache::ACEProxy::UTF8_RACE assumes that input domain names
     are encoded in UTF8. But currently it's known that:
 
     *   MSIE's "always send URL as UTF8" preference does NOT ALWAYS send
@@ -57,7 +58,8 @@ CAVEATS
     So, this proxy server doesn't always work well with all the domains for
     all the browsers. If you figure out how your browser encodes
     multilingual domain names, you can write your custom translator as in
-    the section on "SUBCLASSING".
+    the section on "SUBCLASSING". See also the Apache::ACEProxy::SJIS_RACE
+    manpage if your mother language is Japanese.
 
     Suggestions, patches and reports are welcome about this issue.
 
@@ -71,5 +73,6 @@ AUTHOR
 
 SEE ALSO
     the Apache::ProxyPassThru manpage, the LWP::UserAgent manpage, the
-    Unicode::String manpage, the Apache::ACEProxy::RACE manpage
+    Unicode::String manpage, the Apache::ACEProxy::UTF8_RACE manpage, the
+    Apache::ACEProxy::SJIS_RACE manpage
 

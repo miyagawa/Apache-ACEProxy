@@ -30,12 +30,14 @@ Apache::ACEProxy::SJIS_RACE - IDN compatible RACE proxy server
 
 Apache::ACEProxy::SJIS_RACE is one of the implementations of
 Apache::ACEProxy. This module encodes Shift_JIS encoded domain names
-into RACE encoding, specified in C<draft-ietf-idn-race-03.txt>.
+into RACE encoding.
 
 =head1 CAVEATS
 
-Works well only for browsers which sends URL as Shift_JIS. See
-L<Apache::ACEProxy/"CAVEATS"> for details.
+Works well only for browsers which sends URL as Shift_JIS. Candidates
+are: Windows Netscape 4.x, Windows Internet Explorer with "Always send
+URL as UTF8" setting B<OFF>. See L<Apache::ACEProxy/"CAVEATS"> for
+details.
 
 You need Jcode module to get this work.
 

@@ -19,8 +19,6 @@ This module is B<deprecated>. Use Apache::ACEProxy::UTF8_RACE instead.
 
 =head1 DESCRIPTION
 
-=head1 CAVEATS
-
 =head1 AUTHOR
 
 Tastuhiko Miyagawa <miyagawa@bulknews.net>

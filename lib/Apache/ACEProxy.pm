@@ -75,7 +75,6 @@ sub prepare_ace {
 
 sub encode {
     my($class, $domain) = @_;
-
     # Default to UTF8_RACE
     require Apache::ACEProxy::UTF8_RACE;
     Apache::ACEProxy::UTF8_RACE->encode($domain);
