@@ -1,0 +1,72 @@
+NAME
+    Apache::ACEProxy - IDN compatible ACE proxy server
+
+SYNOPSIS
+      # in httpd.conf
+      PerlTransHandler Apache::ACEProxy # default uses ::RACE
+
+DESCRIPTION
+    Apache::ACEProxy is a mod_perl based HTTP proxy server, which handles
+    internatilnalized domain names correctly. This module automaticaly
+    detects IDNs in Host: header and converts them in ACE encoding.
+
+    Set your browser's proxy setting to Apache::ACEProxy based server, and
+    you can browse web-sites of multilingual domain names.
+
+SUBCLASSING
+    Default ACE encoding is ACE. Here's how you customize this.
+
+    *   Declare your ACE encoder class (like DUDE, AMC-ACE-Z).
+
+    *   Inherit from Apache::ACEProxy.
+
+    *   Define "encde()" class method.
+
+    That's all. Here's an example of implementation, extracted from
+    Apache::ACEProxy::RACE.
+
+      package Apache::ACEProxy::RACE;
+
+      use base qw(Apache::ACEProxy);
+      use Convert::RACE qw(to_race);
+      use Unicode::String qw(utf8);
+
+      sub encode {
+          my($class, $domain) = @_;
+          return to_race(utf8($domain)->utf16);
+      }
+
+    Not that you should define "encode()" method as a class method. Argument
+    $domain is a (maybe UTF8) string that your browser sends to the proxy
+    server.
+
+    At last, remember to add the following line to httpd.conf or so:
+
+      PerlHandler Apache::ACEProxy::RACE
+
+CAVEATS
+    This module (at least Apache::ACEProxy::RACE) assumes input domain names
+    are encoded in UTF8. But currently it's known that:
+
+    *   MSIE's "always send URL as UTF8" preference does NOT ALWAYS send
+        correct UTF8 string.
+
+    *   Netscape 4.x does NOT send URL as UTF8, but in local encodings.
+
+    So, this proxy server doesn't always work well with all the domains for
+    all the browsers.
+
+    Suggestions, patches and reports are welcome about this fact.
+
+AUTHOR
+    Tastuhiko Miyagawa <miyagawa@bulknews.net>
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    This module comes with NO WARANTY.
+
+SEE ALSO
+    the Apache::ProxyPassThru manpage, the LWP::UserAgent manpage, the
+    Unicode::String manpage, the Apache::ACEProxy::RACE manpage
+
